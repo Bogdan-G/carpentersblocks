@@ -1,11 +1,15 @@
 package com.carpentersblocks.tileentity;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import org.apache.logging.log4j.Level;
+import com.carpentersblocks.util.Attribute;
+import com.carpentersblocks.util.ModLogger;
 
-public class MigrationHelper {
-
+public class TileEntityHelper {
+    
     /**
      * Updates data prior to version 3.3.1 to new format.
      *
@@ -17,7 +21,7 @@ public class MigrationHelper {
         String TAG_OWNER         = "owner";
         String TAG_CHISEL_DESIGN = "chiselDesign";
         String TAG_DESIGN        = "design";
-
+        
         TE.cbMetadata = nbt.getShort(TAG_METADATA);
         TE.cbDesign = nbt.getString(TAG_DESIGN);
         TE.cbOwner = nbt.getString(TAG_OWNER);
@@ -66,6 +70,29 @@ public class MigrationHelper {
                 TE.addAttribute(TE.ATTR_SOIL, tempStack);
             } else if (nbt1.hasKey(TAG_PLANT)) {
                 TE.addAttribute(TE.ATTR_PLANT, tempStack);
+            }
+        }
+    }
+    
+    /**
+     * Validates block tile entity attributes.
+     * <p>
+     * Will attempt to restore attributes in the event of an error,
+     * and will reset tile entity if restoration fails.
+     * 
+     * @param TE the tile entity
+     * @param nbt the nbt tag compound
+     */
+    public static void validateAttributes(NBTTagCompound nbt)
+    {
+        NBTTagList tagList = nbt.getTagList(TEBase.TAG_ATTR_LIST, 10);
+        for (int idx = 0; idx < tagList.tagCount(); ++idx) {
+            NBTTagCompound nbt1 = tagList.getCompoundTagAt(idx);
+            Attribute attribute = Attribute.loadAttributeFromNBT(nbt1);
+            String unlocalizedName = attribute.getUnlocalizedName();
+            if (!Item.itemRegistry.containsKey(unlocalizedName)) {
+                ModLogger.log(Level.WARN, "Attribute " + unlocalizedName + " could not be resolved, removing from block.");
+                tagList.removeTag(idx--);
             }
         }
     }
