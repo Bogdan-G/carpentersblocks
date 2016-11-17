@@ -29,6 +29,7 @@ public class BlockHandlerCarpentersDoor extends BlockHandlerHinged {
      */
     public void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
 
         setParams();
@@ -54,6 +55,7 @@ public class BlockHandlerCarpentersDoor extends BlockHandlerHinged {
         }
 
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     /**

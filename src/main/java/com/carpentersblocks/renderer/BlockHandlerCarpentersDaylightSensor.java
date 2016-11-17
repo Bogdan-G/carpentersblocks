@@ -20,6 +20,7 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         double yOffset = 0.375D;
 
         /* Glass inset */
@@ -57,6 +58,7 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.0625D, 0.0D + yOffset, 0.9375D, 0.9375D, 0.25D + yOffset, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override
@@ -65,6 +67,7 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
 
         suppressDyeColor = true;
@@ -119,6 +122,7 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
         renderBlockWithRotation(itemStack, x, y, z, 0.9375D, 0.0D, 0.75D, 1.0D, 1.0D, 1.0D, dir);
 
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
 }

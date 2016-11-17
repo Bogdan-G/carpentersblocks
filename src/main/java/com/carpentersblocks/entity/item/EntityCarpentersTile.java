@@ -231,12 +231,12 @@ public class EntityCarpentersTile extends EntityBase {
 
     public void setDirection(ForgeDirection dir)
     {
-        getDataWatcher().updateObject(ID_DIRECTION, new Integer(dir.ordinal()));
+        getDataWatcher().updateObject(ID_DIRECTION, Integer.valueOf(dir.ordinal()));
     }
 
     public void setRotation(int rotation)
     {
-        getDataWatcher().updateObject(ID_ROTATION, new Integer(rotation));
+        getDataWatcher().updateObject(ID_ROTATION, Integer.valueOf(rotation));
     }
 
     public void rotate()
@@ -252,7 +252,7 @@ public class EntityCarpentersTile extends EntityBase {
 
     public void setDye(String dye)
     {
-        getDataWatcher().updateObject(ID_DYE, new String(dye));
+        getDataWatcher().updateObject(ID_DYE, String.valueOf(dye));
     }
 
     public String getDye()
@@ -267,7 +267,7 @@ public class EntityCarpentersTile extends EntityBase {
 
     public void setDesign(String tile)
     {
-        getDataWatcher().updateObject(ID_DESIGN, new String(tile));
+        getDataWatcher().updateObject(ID_DESIGN, String.valueOf(tile));
     }
 
     public String getDesign()
@@ -538,10 +538,10 @@ public class EntityCarpentersTile extends EntityBase {
     protected void entityInit()
     {
         super.entityInit();
-        getDataWatcher().addObject(ID_DESIGN, new String(""));
-        getDataWatcher().addObject(ID_DYE, new String("dyeWhite"));
-        getDataWatcher().addObject(ID_DIRECTION, new Integer(0));
-        getDataWatcher().addObject(ID_ROTATION, new Integer(0));
+        getDataWatcher().addObject(ID_DESIGN, String.valueOf(""));
+        getDataWatcher().addObject(ID_DYE, String.valueOf("dyeWhite"));
+        getDataWatcher().addObject(ID_DIRECTION, Integer.valueOf(0));
+        getDataWatcher().addObject(ID_ROTATION, Integer.valueOf(0));
     }
 
     /**

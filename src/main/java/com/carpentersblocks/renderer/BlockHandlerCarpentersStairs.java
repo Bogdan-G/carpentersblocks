@@ -16,10 +16,12 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.5D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override
@@ -28,6 +30,7 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         ItemStack itemStack = getCoverForRendering();
 
         Stairs stairs = Stairs.stairsList[TE.getData()];
@@ -46,6 +49,7 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
                 renderBlock(itemStack, x, y, z);
             }
         }
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override

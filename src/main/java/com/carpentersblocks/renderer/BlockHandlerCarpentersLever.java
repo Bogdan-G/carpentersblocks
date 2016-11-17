@@ -48,9 +48,11 @@ public class BlockHandlerCarpentersLever extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
         renderLever(getCoverForRendering(), x, y, z);
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     /**

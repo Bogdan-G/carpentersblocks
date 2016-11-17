@@ -20,6 +20,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.setRenderBounds(0.0D, 0.4375D, 0.0D, 1.0D, 0.5625D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.0625D, 0.5625D, 0.375D, 0.125D, 0.625D, 0.4375D);
@@ -28,6 +29,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
         super.renderInventoryBlock(Blocks.iron_block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.0625D, 0.625D, 0.375D, 0.125D, 0.6875D, 0.625D);
         super.renderInventoryBlock(Blocks.iron_block, metadata, modelID, renderBlocks);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override
@@ -36,6 +38,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
      */
     public void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
 
         setParams();
@@ -58,6 +61,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
         }
 
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     /**

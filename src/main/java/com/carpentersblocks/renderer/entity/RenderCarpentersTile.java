@@ -27,11 +27,11 @@ public class RenderCarpentersTile extends Render {
     @Override
     public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
     {
-        GL11.glPushMatrix();
+        org.lwjgl.opengl.GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
         bindTexture(getEntityTexture(entity));
         render((EntityCarpentersTile) entity, (int) x, (int) y, (int) z);
-        GL11.glPopMatrix();
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     private void render(EntityCarpentersTile entity, int x, int y, int z)

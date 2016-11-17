@@ -21,6 +21,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         /* Sides */
 
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.375D, 0.125D, 1.0D, 0.625D);
@@ -38,6 +39,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.125D, 0.875D, 0.4375D, 0.875D, 0.9375D, 0.5625D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override
@@ -46,6 +48,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
 
         ItemStack itemStack = getCoverForRendering();
@@ -65,6 +68,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
         }
 
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     /**

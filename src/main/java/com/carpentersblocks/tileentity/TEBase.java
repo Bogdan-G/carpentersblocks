@@ -460,7 +460,7 @@ public class TEBase extends TileEntity implements IProtected {
     public String getBlockDesignType()
     {
         String name = getBlockType().getUnlocalizedName();
-        return name.substring(new String("tile.blockCarpenters").length()).toLowerCase();
+        return name.substring(String.valueOf("tile.blockCarpenters").length()).toLowerCase();
     }
 
     public boolean setNextDesign()

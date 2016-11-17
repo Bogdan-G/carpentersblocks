@@ -45,8 +45,10 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override

@@ -59,11 +59,7 @@ public class EventHandler {
      */
     public void onGuiOpenEvent(GuiOpenEvent event)
     {
-        if (event.gui == null) {
-            if (ShadersHandler.enableShadersModCoreIntegration) {
-                ShadersHandler.update();
-            }
-        }
+        if (event.gui == null && ShadersHandler.enableShadersModCoreIntegration) ShadersHandler.update();
     }
 
     @SubscribeEvent

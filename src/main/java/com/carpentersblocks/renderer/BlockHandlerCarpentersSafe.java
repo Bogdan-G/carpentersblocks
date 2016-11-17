@@ -77,6 +77,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         /* Cover components */
 
         for (Component comp : coverList) {
@@ -122,6 +123,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         renderBlocks.setRenderBounds(0.125D, 0.125D, 0.9375D, 0.25D, 0.6875D, 1.0D);
         rotateBounds(renderBlocks, ForgeDirection.WEST);
         super.renderInventoryBlock(Blocks.obsidian, metadata, modelID, renderBlocks);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override
@@ -130,6 +132,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
 
         ItemStack itemStack = getCoverForRendering();
@@ -186,6 +189,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         suppressChiselDesign = false;
 
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     private void renderPartCapacityLight(int x, int y, int z)

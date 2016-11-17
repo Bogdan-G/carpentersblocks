@@ -66,6 +66,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
 
         // Continue only if bed is complete
@@ -96,6 +97,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
         clearDyeOverride();
         suppressDyeColor = false;
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     /**

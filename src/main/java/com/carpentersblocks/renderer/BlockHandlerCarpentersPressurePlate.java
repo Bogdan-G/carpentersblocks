@@ -12,10 +12,12 @@ public class BlockHandlerCarpentersPressurePlate extends BlockHandlerBase {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
         Tessellator.instance.addTranslation(0.0F, 0.4365F, 0.0F);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         Tessellator.instance.addTranslation(0.0F, -0.4365F, 0.0F);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
 }

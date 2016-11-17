@@ -117,6 +117,7 @@ public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         Tessellator tessellator = Tessellator.instance;
         GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
@@ -232,6 +233,7 @@ public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
         tessellator.draw();
 
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     private boolean forceFullFrame = false;

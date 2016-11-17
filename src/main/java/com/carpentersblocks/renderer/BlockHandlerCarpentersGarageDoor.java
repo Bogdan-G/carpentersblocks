@@ -19,6 +19,7 @@ public class BlockHandlerCarpentersGarageDoor extends BlockHandlerBase {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.setRenderBounds(0.4375D, 0.75D, 0.0D, 0.5625D, 1.0D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.4375D, 0.625D, 0.0D, 0.5625D, 0.75D, 0.3125D);
@@ -27,6 +28,7 @@ public class BlockHandlerCarpentersGarageDoor extends BlockHandlerBase {
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.4375D, 0.0D, 0.0D, 0.5625D, 0.625D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override
@@ -35,6 +37,7 @@ public class BlockHandlerCarpentersGarageDoor extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         if (data.isVisible(TE)) {
 
             renderBlocks.renderAllFaces = true;
@@ -63,6 +66,7 @@ public class BlockHandlerCarpentersGarageDoor extends BlockHandlerBase {
 
             renderBlocks.renderAllFaces = false;
         }
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     /**

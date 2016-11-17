@@ -68,6 +68,7 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         Tessellator tessellator = Tessellator.instance;
         GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
@@ -109,11 +110,13 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
         tessellator.draw();
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
         GL11.glRotatef(90.0F, 0.0F, -1.0F, 0.0F);
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     @Override
     public boolean renderWorldBlock(IBlockAccess blockAccess, int x, int y, int z, Block block, int modelID, RenderBlocks renderBlocks)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         VertexHelper.vertexCount = 0;
         renderPass = MinecraftForgeClient.getRenderPass();
         TileEntity TE_default = blockAccess.getTileEntity(x, y, z);
@@ -166,6 +169,7 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
             }
         }
 
+        org.lwjgl.opengl.GL11.glPopMatrix();
         return VertexHelper.vertexCount > 0;
     }
 

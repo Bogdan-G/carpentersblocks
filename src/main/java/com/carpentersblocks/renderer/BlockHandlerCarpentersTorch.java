@@ -49,6 +49,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
      */
     protected void renderCarpentersBlock(int x, int y, int z)
     {
+        org.lwjgl.opengl.GL11.glPushMatrix();
         renderBlocks.renderAllFaces = true;
         disableAO = true;
 
@@ -66,6 +67,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
 
         disableAO = false;
         renderBlocks.renderAllFaces = false;
+        org.lwjgl.opengl.GL11.glPopMatrix();
     }
 
     private void renderTypeVanilla(ItemStack itemStack, int x, int y, int z)

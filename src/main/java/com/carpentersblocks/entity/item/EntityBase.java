@@ -38,7 +38,7 @@ public class EntityBase extends Entity implements IProtected {
     @Override
     protected void entityInit()
     {
-        getDataWatcher().addObject(ID_OWNER, new String(""));
+        getDataWatcher().addObject(ID_OWNER, String.valueOf(""));
     }
 
     @Override
