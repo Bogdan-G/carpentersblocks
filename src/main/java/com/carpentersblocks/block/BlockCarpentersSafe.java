@@ -158,7 +158,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
      */
     public static boolean isUpgrade(ItemStack itemStack)
     {
-        return !BlockProperties.getOreDictMatch(itemStack, upgradeOres).equals("");
+        return BlockProperties.getOreDictMatch(itemStack, upgradeOres).length()!=0;
     }
 
     @Override

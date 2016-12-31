@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import java.util.BitSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -15,8 +16,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
 
-    private boolean[] barrier;
-    private boolean[] connect;
+    private BitSet barrier;
+    private BitSet connect;
     private static final int YN = 0;
     private static final int YP = 1;
 
@@ -67,18 +68,30 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     {
         BlockCarpentersBarrier tempBlock = (BlockCarpentersBarrier) srcBlock;
 
-        boolean[] connect = {
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y - 1, z, ForgeDirection.UP),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z, ForgeDirection.DOWN),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z - 1, ForgeDirection.SOUTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z + 1, ForgeDirection.NORTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y, z, ForgeDirection.EAST),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y, z, ForgeDirection.WEST),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z - 1, ForgeDirection.SOUTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z + 1, ForgeDirection.NORTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y + 1, z, ForgeDirection.EAST),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y + 1, z, ForgeDirection.WEST),
-        };
+        //boolean[] connect = {
+        BitSet connect = new BitSet(10);
+        int index = 0;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y - 1, z, ForgeDirection.UP)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z, ForgeDirection.DOWN)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z - 1, ForgeDirection.SOUTH)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z + 1, ForgeDirection.NORTH)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y, z, ForgeDirection.EAST)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y, z, ForgeDirection.WEST)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z - 1, ForgeDirection.SOUTH)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z + 1, ForgeDirection.NORTH)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y + 1, z, ForgeDirection.EAST)) connect.set(index);
+                index++;
+                if (tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y + 1, z, ForgeDirection.WEST)) connect.set(index);
+                //index++;
+        //};
         this.connect = connect;
 
         // Drop connections to solid faces if a forced post is used
@@ -90,15 +103,16 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
                 Block block = TE.getWorldObj().getBlock(x - dir.offsetX, y, z - dir.offsetZ);
                 if (block.isSideSolid(TE.getWorldObj(), x - dir.offsetX, y, z - dir.offsetZ, dir.getOpposite()))
                 {
-                    connect[dir.getOpposite().ordinal()] = false;
+                    connect.clear(dir.getOpposite().ordinal());
                 }
             }
         }
 
-        boolean[] barrier = {
-                renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
-                renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)
-        };
+        //boolean[] barrier = {
+        BitSet barrier = new BitSet(2);
+                if (renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock)) barrier.set(0);
+                if (renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)) barrier.set(1);
+        //};
         this.barrier = barrier;
     }
 
@@ -194,11 +208,11 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
         double radiusHigh = 0.5D + depthRadius;
 
         if (isTop) {
-            if (enforce || !connect[dir.ordinal() + 4] || !barrier[YP]) {
+            if (enforce || !connect.get(dir.ordinal() + 4) || !barrier.get(YP)) {
                 renderBlockWithRotation(itemStack, x, y, z, radiusLow, yMin, 0.5D, radiusHigh, yMax, 1.0D, dir);
             }
         } else {
-            if (enforce || !barrier[YN]) {
+            if (enforce || !barrier.get(YN)) {
                 renderBlockWithRotation(itemStack, x, y, z, radiusLow, yMin, 0.5D, radiusHigh, yMax, 1.0D, dir);
             }
         }
@@ -218,7 +232,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
 
             ForgeDirection dir = ForgeDirection.getOrientation(side);
 
-            if (connect[side]) {
+            if (connect.get(side)) {
                 if (singlePlank) {
                     renderSupportPlank(itemStack, x, y, z, dir, 0.0625D, 0.1875D, 0.9375D, true);
                 } else {
@@ -237,19 +251,19 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     {
         renderPost(itemStack, x, y, z, 0.0625D);
 
-        double yMin = barrier[YN] ? 0.0D : 0.0625D;
+        double yMin = barrier.get(YN) ? 0.0D : 0.0625D;
 
         for (int side = 2; side < 6; ++side)
         {
             ForgeDirection dir = ForgeDirection.getOrientation(side);
 
-            if (connect[side]) {
+            if (connect.get(side)) {
 
-                double yMax = connect[side + 4] && connect[YP] ? 1.0D : 0.875D;
+                double yMax = connect.get(side + 4) && connect.get(YP) ? 1.0D : 0.875D;
                 renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.6875D, 0.625D, yMax, 0.8125D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.6875D, 0.4375D, yMax, 0.8125D, dir);
 
-                yMax = connect[side + 4] && connect[YP] ? 1.0D : 0.8125D;
+                yMax = connect.get(side + 4) && connect.get(YP) ? 1.0D : 0.8125D;
                 renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir);
 
@@ -272,8 +286,8 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
         renderPost(itemStack, x, y, z, 0.25D);
 
         for (int side = 2; side < 6; ++side) {
-            if (connect[side]) {
-                double yMax = connect[side + 4] && connect[YP] ? 1.0D : 0.8125D;
+            if (connect.get(side)) {
+                double yMax = connect.get(side + 4) && connect.get(YP) ? 1.0D : 0.8125D;
                 renderBlockWithRotation(itemStack, x, y, z, 0.3125D, 0.0D, 0.5D, 0.6875D, yMax, 1.0D, ForgeDirection.getOrientation(side));
             }
         }
@@ -287,7 +301,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
         renderPost(itemStack, x, y, z, 0.0625D);
 
         for (int side = 2; side < 6; ++side) {
-            if (connect[side]) {
+            if (connect.get(side)) {
                 ForgeDirection dir = ForgeDirection.getOrientation(side);
                 renderSupportPlank(itemStack, x, y, z, dir, 0.0625D, 0.75D, 0.875D, false);
                 renderSupportPlank(itemStack, x, y, z, dir, 0.0625D, 0.125D, 0.25D, false);

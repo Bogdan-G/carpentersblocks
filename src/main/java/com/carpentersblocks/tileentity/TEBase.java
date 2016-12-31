@@ -386,7 +386,8 @@ public class TEBase extends TileEntity implements IProtected {
      */
     public boolean setChiselDesign(int side, String iconName)
     {
-        if (!cbChiselDesign.equals(iconName)) {
+        //it's a typo? s 2 years?
+        if (!cbChiselDesign[side].equals(iconName)) {
             cbChiselDesign[side] = iconName;
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
             markDirty();
@@ -398,7 +399,8 @@ public class TEBase extends TileEntity implements IProtected {
 
     public void removeChiselDesign(int side)
     {
-        if (!cbChiselDesign.equals("")) {
+        //it's a typo? s 2 years?
+        if (cbChiselDesign[side].length()!=0) {
             cbChiselDesign[side] = "";
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
             markDirty();

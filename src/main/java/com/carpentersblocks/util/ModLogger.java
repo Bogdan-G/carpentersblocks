@@ -7,7 +7,7 @@ import com.carpentersblocks.CarpentersBlocks;
 
 public class ModLogger {
 
-    private static Logger logger = LogManager.getLogger(CarpentersBlocks.MODID);
+    private static final Logger logger = LogManager.getLogger(CarpentersBlocks.MODID);
 
     public static void log(Level level, String format, Object... data)
     {

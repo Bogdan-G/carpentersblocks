@@ -511,7 +511,7 @@ public class BlockCoverable extends BlockContainer {
         String design = TE.getChiselDesign(side);
         String designAdj = "";
 
-        if (design.equals("")) {
+        if (design.length()==0) {
 
             World world = TE.getWorldObj();
 
@@ -531,11 +531,11 @@ public class BlockCoverable extends BlockContainer {
 
         }
 
-        if (designAdj.equals("")) {
+        if (designAdj.length()==0) {
             design = leftClick ? DesignHandler.getPrev("chisel", design) : DesignHandler.getNext("chisel", design);
         }
 
-        if (!design.equals("")) {
+        if (design.length()!=0) {
             TE.setChiselDesign(side, design);
         }
 

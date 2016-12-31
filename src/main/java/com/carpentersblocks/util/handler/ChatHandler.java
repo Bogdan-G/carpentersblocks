@@ -56,7 +56,7 @@ public class ChatHandler {
     {
         // Translate using FML's language registry
         String name = LanguageRegistry.instance().getStringLocalization(getUnlocalizedNameEfficiently(itemStack), "en_US");
-        if (name.equals("")) {
+        if (name.length()==0) {
             // Translate using Minecraft's language registry
             name = StatCollector.translateToFallback(getUnlocalizedNameEfficiently(itemStack));
         }

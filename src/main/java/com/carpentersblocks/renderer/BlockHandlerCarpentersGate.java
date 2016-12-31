@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import java.util.BitSet;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISimpleBlockRenderingHandler {
 
-    private boolean[] gate;
+    private BitSet gate;
     private ForgeDirection dir;
     private boolean isOpen;
     private int type;
@@ -72,10 +73,11 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
         type = Gate.getType(TE);
         isOpen = Gate.getState(TE) == Gate.STATE_OPEN;
 
-        gate = new boolean[] {
-                renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
-                renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)
-        };
+        //gate = new boolean[] {
+        gate = new BitSet(2);
+                if (renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock)) gate.set(0);
+                if (renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)) gate.set(1);
+        //};
 
         if (Gate.getFacing(TE) == Gate.FACING_ON_Z) {
             dir = Gate.getDirOpen(TE) == Gate.DIR_NEG ? ForgeDirection.NORTH : ForgeDirection.SOUTH;
@@ -93,7 +95,7 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
         double yOffset = type * 0.0625D;
         boolean singlePlank = type == Gate.TYPE_VANILLA_X3;
 
-        yMin = gate[YN] ? 0.0D : 0.3125D - yOffset;
+        yMin = gate.get(YN) ? 0.0D : 0.3125D - yOffset;
 
         renderBlockWithRotation(itemStack, x, y, z, 0.4375D, yMin, 0.0D, 0.5625D, 1.0D, 0.125D, dir);
         renderBlockWithRotation(itemStack, x, y, z, 0.4375D, yMin, 0.875D, 0.5625D, 1.0D, 1.0D, dir);
@@ -102,8 +104,8 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
             if (!singlePlank) {
 
-                yMin = gate[YN] ? 0.0D : 0.375D - yOffset;
-                yMax = gate[YP] ? 1.0D : 0.9375D;
+                yMin = gate.get(YN) ? 0.0D : 0.375D - yOffset;
+                yMax = gate.get(YP) ? 1.0D : 0.9375D;
 
                 renderBlockWithRotation(itemStack, x, y, z, 0.8125D, yMin, 0.0D, 0.9375D, yMax, 0.125D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.8125D, yMin, 0.875D, 0.9375D, yMax, 1.0D, dir);
@@ -120,8 +122,8 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
             } else {
 
-                yMin = gate[YN] ? 0.0D : 0.1875D;
-                yMax = gate[YP] ? 1.0D : 0.9375D;
+                yMin = gate.get(YN) ? 0.0D : 0.1875D;
+                yMax = gate.get(YP) ? 1.0D : 0.9375D;
 
                 renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.0D, 0.9375D, yMax, 0.125D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.875D, 0.9375D, yMax, 1.0D, dir);
@@ -132,8 +134,8 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
             if (!singlePlank) {
 
-                yMin = gate[YN] ? 0.0D : 0.375D - yOffset;
-                yMax = gate[YP] ? 1.0D : 0.9375D;
+                yMin = gate.get(YN) ? 0.0D : 0.375D - yOffset;
+                yMax = gate.get(YP) ? 1.0D : 0.9375D;
 
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, yMin, 0.375D, 0.5625D, yMax, 0.5D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, yMin, 0.5D, 0.5625D, yMax, 0.625D, dir);
@@ -150,8 +152,8 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
             } else {
 
-                yMin = gate[YN] ? 0.0D : 0.375D - yOffset;
-                yMax = gate[YP] ? 1.0D : 0.9375D;
+                yMin = gate.get(YN) ? 0.0D : 0.375D - yOffset;
+                yMax = gate.get(YP) ? 1.0D : 0.9375D;
 
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, yMin, 0.125D, 0.5625D, yMax, 0.875D, dir);
 
@@ -169,24 +171,24 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
         if (isOpen) {
 
-            if (!gate[YP]) {
+            if (!gate.get(YP)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.625D, 0.0625D, 1.0D, 0.6875D, 0.1875D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.625D, 0.8125D, 1.0D, 0.6875D, 0.9375D, dir);
             }
-            if (!gate[YN]) {
+            if (!gate.get(YN)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.1875D, 0.0625D, 1.0D, 0.25D, 0.1875D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.1875D, 0.8125D, 1.0D, 0.25D, 0.9375D, dir);
             }
 
-            yMin = gate[YN] ? 0.0D : 0.0625D;
-            yMax = gate[YP] ? 1.0D : 0.8125D;
+            yMin = gate.get(YN) ? 0.0D : 0.0625D;
+            yMax = gate.get(YP) ? 1.0D : 0.8125D;
 
             renderBlockWithRotation(itemStack, x, y, z, 0.5D, yMin, 0.0D, 0.5625D, yMax, 0.0625D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.5D, yMin, 0.1875D, 0.5625D, yMax, 0.25D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.5D, yMin, 0.75D, 0.5625D, yMax, 0.8125D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.5D, yMin, 0.9375D, 0.5625D, yMax, 1.0D, dir);
 
-            yMax = gate[YP] ? 1.0D : 0.875D;
+            yMax = gate.get(YP) ? 1.0D : 0.875D;
 
             renderBlockWithRotation(itemStack, x, y, z, 0.6875D, yMin, 0.0D, 0.8125D, yMax, 0.0625D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.6875D, yMin, 0.1875D, 0.8125D, yMax, 0.25D, dir);
@@ -199,22 +201,22 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
         } else {
 
-            if (!gate[YP]) {
+            if (!gate.get(YP)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.625D, 0.0D, 0.5625D, 0.6875D, 1.0D, dir);
             }
-            if (!gate[YN]) {
+            if (!gate.get(YN)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.1875D, 0.0D, 0.5625D, 0.25D, 1.0D, dir);
             }
 
-            yMin = gate[YN] ? 0.0D : 0.0625D;
-            yMax = gate[YP] ? 1.0D : 0.8125D;
+            yMin = gate.get(YN) ? 0.0D : 0.0625D;
+            yMax = gate.get(YP) ? 1.0D : 0.8125D;
 
             renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.0D, 0.625D, yMax, 0.0625D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.0D, 0.4375D, yMax, 0.0625D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir);
 
-            yMax = gate[YP] ? 1.0D : 0.875D;
+            yMax = gate.get(YP) ? 1.0D : 0.875D;
 
             renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.1875D, 0.625D, yMax, 0.3125D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.1875D, 0.4375D, yMax, 0.3125D, dir);
@@ -233,11 +235,11 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
     {
         if (isOpen) {
 
-            if (!gate[YP]) {
+            if (!gate.get(YP)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.75D, 0.0625D, 1.0D, 0.875D, 0.1875D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.75D, 0.8125D, 1.0D, 0.875D, 0.9375D, dir);
             }
-            if (!gate[YN]) {
+            if (!gate.get(YN)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.125D, 0.0625D, 1.0D, 0.25D, 0.1875D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.125D, 0.8125D, 1.0D, 0.25D, 0.9375D, dir);
             }
@@ -249,10 +251,10 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
         } else {
 
-            if (!gate[YP]) {
+            if (!gate.get(YP)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.75D, 0.0D, 0.5625D, 0.875D, 1.0D, dir);
             }
-            if (!gate[YN]) {
+            if (!gate.get(YN)) {
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.125D, 0.0D, 0.5625D, 0.25D, 1.0D, dir);
             }
 
@@ -269,7 +271,7 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
      */
     private void renderTypeWall(ItemStack itemStack, int x, int y, int z)
     {
-        double yMax = gate[YP] ? 1.0D : 0.8125D;
+        double yMax = gate.get(YP) ? 1.0D : 0.8125D;
 
         if (isOpen) {
             renderBlockWithRotation(itemStack, x, y, z, 0.5D, 0.0D, 0.0D, 1.0D, yMax, 0.125D, dir);

@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import java.util.BitSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockRailBase;
@@ -58,7 +59,7 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
     public boolean        disableAO;
     public boolean        hasDyeOverride;
     public int            dyeOverride;
-    public boolean[]      hasIconOverride = new boolean[6];
+    public BitSet      hasIconOverride = new BitSet(6);
     public IIcon[]        iconOverride    = new IIcon[6];
     public int            renderPass;
 
@@ -416,11 +417,11 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
     {
         if (side == 6) {
             for (int count = 0; count < 6; ++count) {
-                hasIconOverride[count] = true;
+                hasIconOverride.set(count);
                 iconOverride[count] = icon;
             }
         } else {
-            hasIconOverride[side] = true;
+            hasIconOverride.set(side);
             iconOverride[side] = icon;
         }
     }
@@ -432,10 +433,10 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
     {
         if (side == 6) {
             for (int count = 0; count < 6; ++count) {
-                hasIconOverride[count] = false;
+                hasIconOverride.clear(count);
             }
         } else {
-            hasIconOverride[side] = false;
+            hasIconOverride.clear(side);
         }
     }
 
@@ -568,7 +569,7 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
         BlockProperties.prepareItemStackForRendering(itemStack);
         IIcon icon = renderBlocks.getIconSafe(getUniqueIcon(itemStack, side, BlockProperties.toBlock(itemStack).getIcon(side, itemStack.getItemDamage())));
 
-        if (hasIconOverride[side]) {
+        if (hasIconOverride.get(side)) {
             icon = renderBlocks.getIconSafe(iconOverride[side]);
         }
 

@@ -165,7 +165,7 @@ public class DesignHandler {
         if (tempList.isEmpty()) {
             return iconName;
         } else {
-            int idx = iconName.equals("") ? tempList.size() - 1 : tempList.indexOf(iconName) - 1;
+            int idx = iconName.length()==0 ? tempList.size() - 1 : tempList.indexOf(iconName) - 1;
             return tempList.get(idx < 0 ? tempList.size() - 1 : idx);
         }
     }
